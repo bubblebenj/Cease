@@ -1,0 +1,12 @@
+Consistent Elemental Attributes Setup Engine.
+Setup your webpage layout using consistent css like attributes with more control over placement and size.
+
+NO HACKS to place objects where you want, instead more controls : pivot, size, position and a referent element.
+exemple : "ref : parent; pivot : left bottom; position : right bottom; size : 10px 50%;".
+
+ref value must match [parent|prev|next|document|window|any_valid_css_selector] and must match a single element (jQ.size() == 1).
+x must match [left|center|right|any_decimal_number_with_a_valid_unit].
+y must match [top|center|bottom|any_decimal_number_with_a_valid_unit].
+Valid_units must match [%||px] : no value means a ration like 0.5 = 50%.
+
+The project is written in haXe, targets javascript and is based on jQuery.
