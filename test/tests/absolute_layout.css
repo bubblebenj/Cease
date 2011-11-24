@@ -1,0 +1,57 @@
+.test {
+	position	: relative;
+	width		: 415px;
+	height		: 160px;
+	border		: 1px dashed;
+}
+
+#debug	{
+	display: block;
+	position: fixed;
+	top: 5px;
+	right: 5px;
+	width: 250px;
+	height: 400px;
+	overflow: scroll;
+	background: transparent url("/assets/images/dbg_bg.png") repeat left top;
+}
+
+
+.test > .wrapper {
+	width		: 200px;
+	height		: 150px;
+	top			: 5px;
+	background	: lightgrey none no-repeat scroll 0 0;
+}
+
+.test > .ref	{
+	left		: 5px;
+}
+
+.test > .abs	{
+	left		: 210px;
+}
+
+.element	{
+	width		: 50px;
+	height		: 50px;
+	background	: grey none no-repeat scroll 0 0;
+}
+
+/* test specific */
+#test1 > .ref > .element	{
+	position	: relative;
+	display		: inline-block;
+}
+
+#test1 > .abs > .element	{
+	position	: absolute;
+}
+
+#test2 > .ref > .element	{
+	bottom		: 0;
+}
+
+#test2 > .abs > .element	{
+	
+}

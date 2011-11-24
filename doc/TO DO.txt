@@ -1,0 +1,79 @@
+Note At the moment Cease handle only initial (static) setup with the element parent as reference 
+
+[X] REF_HANGLING] Add custom ref handling (instead of the parent)
+	[X] create the attribute ( enum, setup file description )
+	[X] parse it
+	
+[X] WINDOW_DOCUMENT] handle window and document as ref
+
+[v] DYNAMIC_UPDATE]
+	[X][Note : for any unit anyway] Update on ref resize
+		ref relative (RATIO PERCENT) size need it
+		
+	[ ] Update on ref move
+		for object attach to something else of TL
+
+[ ] DEFAULT_SIZE] handle default size behavior with missing values :
+	[ ] ( X || Y ) NOT SET : the object will fit the value set and keep aspect ratio for the other side.
+	[ ] with unit PERCENT and RATIO
+		( X && Y ) NOT SET : the object will fit the size of the parent but will keep aspect ratio
+	[ ] with unit PX
+		( X && Y ) NOT SET : the object will take the size of the original data image
+	
+	Note : would be nice have this kind of notation "size:% % /10px %/ px px"
+
+[ ] FILE_CEAS] create an external file format .ceas, using id and class instead of 
+	class="cease" cease="..."
+
+[ ] MODE_DEBUG] two execution mode
+	[~] debug (yelling on each problem encountered)
+	[ ] web/normal/release whatever that never say anything
+	[ ] [req FILE_CEAS] metadata in .ceas to select mode quickly
+
+[ ] STACKED_VALUES] support for stacked values :
+	[ ] file description 
+		[ ]attr : (x1 y1) (x2 y2); OR (x1 y1)+(x2 y2)
+		 OR maybe but need to look at it
+		[ ]attr : x1+x2 y1+y2;
+		Example
+			for an object 10px to the right and under another object :
+			position:(100% 100%) (10px 10px);
+			position: 100%+10px 100%+10px;
+			Note that this could be done using pivot :
+			pivot : -10px -10px; position : 100% 100%;
+	[ ] implementation
+		Need to change the way attribute are computed and the way it's stored
+	
+[ ] PER_VALUE_ELT_REF] something else that need some thought is having a ref for each values (except pivot that would have a self ref) like
+		size : 100% 100% parent; position : 15px 0.5 next;
+
+[v] CIRC_REF_CHECK] as a consequence of previous point a check for circular reference should be done :
+	[X][update now works] at this state Cease will just not work
+	[ ] but when size and move event detection done could freeze the app or simply make the visual flickering
+		
+[ ] BUNDLES] [req STACKED_VALUES & PER_VALUE_ELT_REF] support for bundles  to have object of size of the parent but linked to the previous element) :
+	"stack-children : [left|right|top|bottom] [selector] [x y];" : set all immediat children matching optional selector "stacking horizontally" to the left at the start position x y
+
+[ ]	CEASE_REF] [req FILE_CEAS] support for cease-reference  :
+	[ ] BLOCK] block of attributes reference
+		[ ] using a whole selector defined in the document ( #id, .class... )
+			css-selector {...}
+			use : @css-selector;
+		[ ] using user defined var containing attribute
+			var my_var {...}
+			use	: @my_var;
+		[ ] adding a cease-ref to an existing selector
+			css-selector as my_var {...}
+			use	: @my_var;
+	[ ] [req CEASE_REF-BLOCK] attribute reference 
+		my-attribute : @my_var-->attribute
+
+[ ] JQ_DEPENDANCY] be independant from jQuery (well not sure it is a good idea)
+
+[ ] GROUP_REF] support for group of elements as ref
+	[ ] POS] Use topper lefter value
+	[ ] SIZE] Use the maximum range of coordinate to get the size of the group ( (bottomer righter) - (topper lefter) )
+	[~] file description
+		[X] CSS_SELECTOR] Nothing to change
+			Simply use a css-selector that return 1 or more elements
+		[ ] CHILDREN] add the "children" keyword to the ref attribute

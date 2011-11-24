@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+
+	<page id="MainMenu" type="body">
+	
+		<image type="background-image" src="./Data/2dEngineTest/main_bg.jpg"></image>
+	
+		<div id="TL">
+			<image type="fit_img" src="./Data/2dEngineTest/TL_128x64.png"></image>
+			<div type="corners">
+				<image type="TL_corner" src="./Data/2dEngineTest/TL_corner.png"></image>
+				<image type="TR_corner" src="./Data/2dEngineTest/TR_corner.png"></image>
+				<image type="BR_corner" src="./Data/2dEngineTest/BR_corner.png"></image>
+				<image type="BL_corner" src="./Data/2dEngineTest/BL_corner.png"></image>
+			</div>
+		</div>
+		
+		<div id="Center">
+			<image type="fit_img" src="./Data/2dEngineTest/Center_64x64.png"></image>
+			<div type="corners">
+				<image type="TL_corner" src="./Data/2dEngineTest/TL_corner.png"></image>
+				<image type="TR_corner" src="./Data/2dEngineTest/TR_corner.png"></image>
+				<image type="BR_corner" src="./Data/2dEngineTest/BR_corner.png"></image>
+				<image type="BL_corner" src="./Data/2dEngineTest/BL_corner.png"></image>
+			</div>
+		</div>
+		
+		<div id="BR">
+			<image type="fit_img" src="./Data/2dEngineTest/BR_128x128.png"></image>
+			<div type="corners">
+				<image type="TL_corner" src="./Data/2dEngineTest/TL_corner.png"></image>
+				<image type="TR_corner" src="./Data/2dEngineTest/TR_corner.png"></image>
+				<image type="BR_corner" src="./Data/2dEngineTest/BR_corner.png"></image>
+				<image type="BL_corner" src="./Data/2dEngineTest/BL_corner.png"></image>
+			</div>
+		</div>
+		
+	</page>
+	
+</data>

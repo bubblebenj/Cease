@@ -1,0 +1,94 @@
+<!--
+	when an element gots a type and an id be aware that the properties defined
+	in the id will override thios of the type.
+
+	size :
+		unit="%" :	Relative to parent size.
+					if both x AND y are not set the object will fit the size of the parent but will keep aspect ratio
+					if x OR y are not set the object will fit the value set and keep aspect ratio for the other side.
+		unit="px" : exact,
+					if both x AND y are not set the object will take the size of the original data image
+					if x OR y are not set the object will fit the value set and keep aspect ratio for the other side.
+	handle :
+		type="center" :	the object is handled using its center coordinate
+		type="TL" :		the object is handled using its top-left coordinate
+		type="pivot" :	the object is handled using x, y coordinate that are base on the ratio of the size of the image
+						e.g. : type="pivot"	x="1" y="0" let handle the object from the top  right corner
+	pos	:
+		unit="px" : coordinate x, y of the pivot (or TL or center) are added to the parent top left coordinate
+		unit="%" : 	same as px but x and y value are in % of the size of the parent. e.g. bottom right is 100 100
+		
+		
+-->
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<!-- TYPES -->
+	
+	<type name="body">
+		<size	unit="%"			x="100"	y="100"></size>
+		<handle	type="center">						</handle>
+		<pos 	unit="%"			x="50"	y="50">	</pos>
+	</type>
+	
+	<type name="background-image">
+		<size	unit="%"			x=""	y="">	</size>
+		<handle	type="center">						</handle>
+		<pos 	unit="%"			x="50"	y="50">	</pos>
+	</type>
+	
+	<type name="fit_img">
+		<size	unit="%"			x="100"	y="100"></size>
+		<handle	type="center">						</handle>
+		<pos 	unit="%"			x="50"	y="50">	</pos>
+	</type>
+	
+	<type name="corners">
+		<size	unit="%"			x="100"	y="100"></size>
+		<handle	type="center"		x="50"	y="50">	</handle>
+		<pos 	unit="%"			x="50"	y="50">	</pos>
+	</type>
+	
+	<type name="TL_corner">
+		<size	unit="px"			x="0"	y="0">	</size>
+		<handle type="TL">							</handle>
+		<pos 	unit="%"			x="0"	y="0">	</pos>
+	</type>
+	
+	<type name="TR_corner">
+		<size	unit="px"			x="0"	y="0">	</size>
+		<handle type="pivot"		x="1"	y="0">	</handle>
+		<pos 	unit="%"			x="100"	y="0" >	</pos>
+	</type>
+	
+	<type name="BR_corner">
+		<size	unit="px"			x="0"	y="0">	</size>
+		<handle type="pivot"		x="1"	y="1">	</handle>
+		<pos 	unit="%"			x="100"	y="100"></pos>
+	</type>
+	
+	<type name="BL_corner">
+		<size	unit="px"			x="0"	y="0">	</size>
+		<handle type="pivot"		x="0"	y="1">	</handle>
+		<pos 	unit="%"			x="0"	y="100"></pos>
+	</type>
+	
+	<!-- ID -->
+	<id name="TL">
+		<size	unit="px"			x="128"	y="64">	</size>
+		<handle type="TL">							</handle>
+		<pos 	unit="px"			x="0"	y="0" >	</pos>
+	</id>
+	
+	<id name="Center">
+		<size	unit="px"			x="128"	y="128">	</size>
+		<handle type="center">						</handle>
+		<pos 	unit="%"			x="50"	y="50" ></pos>
+	</id>
+	
+	<id name="BR">
+		<size	unit="%"			x="50"	y="25">	</size>
+		<handle type="pivot"		x="1"	y="1">	</handle>
+		<pos 	unit="%"			x="100"	y="100"></pos>
+	</id>
+	
+</data>

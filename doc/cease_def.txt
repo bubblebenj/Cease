@@ -1,0 +1,114 @@
+ref :
+- less	: http://lesscss.org/
+- hss	:
+
+Cease :
+for Consistent Elemental Attributes Setup Engine.
+is a tool made to cover CSS weaknesses especially for 
+
+
+Overview :
+- NO HACKS to place objects where you want, instead more controls over object are needed :
+handle, referent, size and position.
+If a hack is required then Cease has failed its goal.
+
+- attributes and value are coherent :
+	handle is the position of the pivot of the element.
+	referent is the object from where you size or position an object.
+	size and position have the normal meaning.
+	
+	Only x and y for numerical value
+	pos.x replace left.	left is now use as an equivalent of pos.x = 0 ( pos.x = left );
+	pos.y replace top.	top is now an equivalent of pos.y = 0 ( pos.y = top );
+	
+	There a 3 units available :
+	%	: relative to referent size (example 15%)
+	none: undesrtand no value set means it's a ratio (aka % / 100). (example 0.15 or .15)
+	px	: exact value in pixels (example 100px)
+
+- No more "package" attribute.
+For instance, setting the display attribute means changing many attributes of an element.
+Cease propose instead to use blocks :
+	- prefetched css like features, like float, display, position...
+	- user define blocks
+		
+At the moment, Cease use javascript (jQuery) to place object.
+
+Usage :
+simple add :
+- in the html header :
+<script type="text/javascript" src="../libs/cease.js"></script>
+- inside each dom element you want to place (this is a temporary solution, it will migrate to a proper .ceas file respecting the css syntax (with selector {})
+class="cease" cease="ref : my_ref; size:x y; pivot : x y; position : x y" 
+
+my_ref must match [parent|prev|next|document|window|any_valid_css_selector] and must match a single element (jQ.size() == 1)
+x must match [left|center|right|any_decimal_number_with_a_valid_unit]
+y must match [top|center|bottom|any_decimal_number_with_a_valid_unit]
+valid_units must match [%||px] : no value means a ration like 0.5 = 50%
+
+Examples ( ╬ : the pivot of B ) :
+
+B is centered in A :
+	ref : A;		pivot : 0.5 0.5;		position : 0.5 0.5
+OR
+	ref : parent;	pivot : center center;	position : center center
+	
+┌—————————————————┐
+│ A  ┌———————┐    │ 
+│    │ B     │    │ 
+│    │   ╬   │    │ 
+│    │       │    │ 
+│    └———————┘    │
+└—————————————————┘
+
+B is at corner bottom right corner of A :
+	"ref : A; pivot : 1 1; position : 1 1"
+OR
+	"ref : parent; pivot : right bottom; position : right bottom"
+┌—————————————————┐
+│ A               │
+│         ┌———————┐ 
+│         │ B     │ 
+│         │       │ 
+│         │       │
+└—————————└———————╬
+
+B is at corner bottom right corner of A but outside A :
+	"ref : A; pivot : 0 0; position : 1 1"
+OR
+	"ref : parent; pivot : left top; position : right bottom"
+OR (pivot is default top left)
+	"ref : parent; position : right bottom"
+┌—————————————————┐
+│ A               │
+│                 │ 
+│                 │ 
+│                 │ 
+│                 │
+└—————————————————╬———————┐
+                  │ B     │
+                  │       │
+                  │       │
+                  └———————┘
+
+
+
+/* Info not yet true
+	when an element gots a type and an id be aware that the properties defined
+	in the id will override those of the type.
+	size :
+		unit="%" :	Relative to parent size.
+					if both x AND y are not set the object will fit the size of the parent but will keep aspect ratio
+					if x OR y are not set the object will fit the value set and keep aspect ratio for the other side.
+		unit="px" : exact,
+					if both x AND y are not set the object will take the size of the original data image
+					if x OR y are not set the object will fit the value set and keep aspect ratio for the other side.
+	handle :
+		type="center" :	the object is handled using its center coordinate
+		type="TL" :		the object is handled using its top-left coordinate
+		type="pivot" :	the object is handled using x, y coordinate that are base on the ratio of the size of the image
+						e.g. : type="pivot"	x="1" y="0" let handle the object from the top  right corner
+	pos	:
+		unit="px" : coordinate x, y of the pivot (or TL or center) are added to the parent top left coordinate
+		unit="%" : 	same as px but x and y value are in % of the size of the parent. e.g. bottom right is 100 100
+*/
