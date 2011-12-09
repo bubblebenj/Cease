@@ -5,7 +5,7 @@
 package cease;
 
 import js.JQuery;
-import CeaVal;
+import cease.CeaVal;
 
 enum CeaAttr {
 	SIZE;
@@ -125,7 +125,7 @@ class CeaMent
 	public function isParentResized() : Bool
 	{
 		var l_refSize	= getSize( ref );
-		trace ( m_prevRefSize.x+", " +m_prevRefSize.y + " =? " + l_refSize.x +", " + l_refSize.y );
+		//trace ( m_prevRefSize.x+", " +m_prevRefSize.y + " =? " + l_refSize.x +", " + l_refSize.y );
 		return ( m_prevRefSize.x != l_refSize.x || m_prevRefSize.y != l_refSize.y );
 	}
 	
@@ -137,7 +137,32 @@ class CeaMent
 			{
 				updatePos();
 			}
-			m_prevRefSize	= getSize( ref );
+			//m_prevRefSize	= getSize( ref );
+		}
+	}
+	
+	/**
+	 * Update jQelement size using computed l_pos.x and l_pos.y.
+	 * 
+	 * @return true if size updated, else false
+	 */
+	public function updateSize() : Bool
+	{
+		if ( size != null )
+		{
+			var l_coord : PxCoord;
+			l_coord	= getPx( SIZE );
+			target.width( l_coord.x );
+			target.height( l_coord.y );
+			
+			// At last position should be computed
+			//trace ( "new Size : " + size );
+			updatePos();
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
@@ -162,32 +187,7 @@ class CeaMent
 			l_offset	= { x : l_refOffset.x + l_eltPos.x - l_eltPivot.x,
 							y : l_refOffset.y + l_eltPos.y - l_eltPivot.y };
 			target.offset( { top : l_offset.y, left : l_offset.x } );
-			trace ( "new position : " + pos );
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	/**
-	 * Update jQelement size using computed l_pos.x and l_pos.y.
-	 * 
-	 * @return true if size updated, else false
-	 */
-	public function updateSize() : Bool
-	{
-		if ( size != null )
-		{
-			var _coord : PxCoord;
-			_coord	= getPx( SIZE );
-			target.width( _coord.x );
-			target.height( _coord.y );
-			
-			// At last position should be computed
-			trace ( "new Size : " + size );
-			updatePos();
+			//trace ( "new position : " + pos );
 			return true;
 		}
 		else

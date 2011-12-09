@@ -14,12 +14,14 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="..\src" />
+    <class path="..\test" />
+    <class path="..\doc" />
   </classpaths>
   <!-- Build options -->
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option mainClass="Cease" />
+    <option mainClass="cease.Cease" />
     <option enabledebug="True" />
     <option additional="#-resource ./WWW/Data/Script/contests.xml@ContestsXml&#xA;#-resource ./WWW/Data/Script/cars.xml@CarsXml" />
   </build>

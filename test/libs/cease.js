@@ -479,304 +479,57 @@ Std.random = function(x) {
 	$s.pop();
 }
 Std.prototype.__class__ = Std;
-haxe.Timer = function(time_ms) {
-	if( time_ms === $_ ) return;
-	$s.push("haxe.Timer::new");
-	var $spos = $s.length;
-	var arr = haxe_timers;
-	this.id = arr.length;
-	arr[this.id] = this;
-	this.timerId = window.setInterval("haxe_timers[" + this.id + "].run();",time_ms);
-	$s.pop();
-}
-haxe.Timer.__name__ = ["haxe","Timer"];
-haxe.Timer.delay = function(f,time_ms) {
-	$s.push("haxe.Timer::delay");
-	var $spos = $s.length;
-	var t = new haxe.Timer(time_ms);
-	t.run = function() {
-		$s.push("haxe.Timer::delay@79");
-		var $spos = $s.length;
-		t.stop();
-		f();
-		$s.pop();
-	};
-	$s.pop();
-	return t;
-	$s.pop();
-}
-haxe.Timer.measure = function(f,pos) {
-	$s.push("haxe.Timer::measure");
-	var $spos = $s.length;
-	var t0 = haxe.Timer.stamp();
-	var r = f();
-	haxe.Log.trace(haxe.Timer.stamp() - t0 + "s",pos);
-	$s.pop();
-	return r;
-	$s.pop();
-}
-haxe.Timer.stamp = function() {
-	$s.push("haxe.Timer::stamp");
-	var $spos = $s.length;
-	var $tmp = Date.now().getTime() / 1000;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-haxe.Timer.prototype.id = null;
-haxe.Timer.prototype.timerId = null;
-haxe.Timer.prototype.stop = function() {
-	$s.push("haxe.Timer::stop");
-	var $spos = $s.length;
-	if(this.id == null) {
-		$s.pop();
-		return;
-	}
-	window.clearInterval(this.timerId);
-	var arr = haxe_timers;
-	arr[this.id] = null;
-	if(this.id > 100 && this.id == arr.length - 1) {
-		var p = this.id - 1;
-		while(p >= 0 && arr[p] == null) p--;
-		arr = arr.slice(0,p + 1);
-	}
-	this.id = null;
-	$s.pop();
-}
-haxe.Timer.prototype.run = function() {
-	$s.push("haxe.Timer::run");
+if(typeof cease=='undefined') cease = {}
+cease.E_Unit = { __ename__ : ["cease","E_Unit"], __constructs__ : ["RATIO","PX","PERCENT"] }
+cease.E_Unit.RATIO = ["RATIO",0];
+cease.E_Unit.RATIO.toString = $estr;
+cease.E_Unit.RATIO.__enum__ = cease.E_Unit;
+cease.E_Unit.PX = ["PX",1];
+cease.E_Unit.PX.toString = $estr;
+cease.E_Unit.PX.__enum__ = cease.E_Unit;
+cease.E_Unit.PERCENT = ["PERCENT",2];
+cease.E_Unit.PERCENT.toString = $estr;
+cease.E_Unit.PERCENT.__enum__ = cease.E_Unit;
+cease.X_predef = { __ename__ : ["cease","X_predef"], __constructs__ : ["LEFT","CENTER","RIGHT","NB"] }
+cease.X_predef.LEFT = ["LEFT",0];
+cease.X_predef.LEFT.toString = $estr;
+cease.X_predef.LEFT.__enum__ = cease.X_predef;
+cease.X_predef.CENTER = ["CENTER",1];
+cease.X_predef.CENTER.toString = $estr;
+cease.X_predef.CENTER.__enum__ = cease.X_predef;
+cease.X_predef.RIGHT = ["RIGHT",2];
+cease.X_predef.RIGHT.toString = $estr;
+cease.X_predef.RIGHT.__enum__ = cease.X_predef;
+cease.X_predef.NB = function(v,unit) { var $x = ["NB",3,v,unit]; $x.__enum__ = cease.X_predef; $x.toString = $estr; return $x; }
+cease.Y_predef = { __ename__ : ["cease","Y_predef"], __constructs__ : ["TOP","CENTER","BOTTOM","NB"] }
+cease.Y_predef.TOP = ["TOP",0];
+cease.Y_predef.TOP.toString = $estr;
+cease.Y_predef.TOP.__enum__ = cease.Y_predef;
+cease.Y_predef.CENTER = ["CENTER",1];
+cease.Y_predef.CENTER.toString = $estr;
+cease.Y_predef.CENTER.__enum__ = cease.Y_predef;
+cease.Y_predef.BOTTOM = ["BOTTOM",2];
+cease.Y_predef.BOTTOM.toString = $estr;
+cease.Y_predef.BOTTOM.__enum__ = cease.Y_predef;
+cease.Y_predef.NB = function(v,unit) { var $x = ["NB",3,v,unit]; $x.__enum__ = cease.Y_predef; $x.toString = $estr; return $x; }
+cease.CeaVal = function(p) {
+	$s.push("cease.CeaVal::new");
 	var $spos = $s.length;
 	$s.pop();
 }
-haxe.Timer.prototype.__class__ = haxe.Timer;
-StringTools = function() { }
-StringTools.__name__ = ["StringTools"];
-StringTools.urlEncode = function(s) {
-	$s.push("StringTools::urlEncode");
-	var $spos = $s.length;
-	var $tmp = encodeURIComponent(s);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.urlDecode = function(s) {
-	$s.push("StringTools::urlDecode");
-	var $spos = $s.length;
-	var $tmp = decodeURIComponent(s.split("+").join(" "));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.htmlEscape = function(s) {
-	$s.push("StringTools::htmlEscape");
-	var $spos = $s.length;
-	var $tmp = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.htmlUnescape = function(s) {
-	$s.push("StringTools::htmlUnescape");
-	var $spos = $s.length;
-	var $tmp = s.split("&gt;").join(">").split("&lt;").join("<").split("&amp;").join("&");
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.startsWith = function(s,start) {
-	$s.push("StringTools::startsWith");
-	var $spos = $s.length;
-	var $tmp = s.length >= start.length && s.substr(0,start.length) == start;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.endsWith = function(s,end) {
-	$s.push("StringTools::endsWith");
-	var $spos = $s.length;
-	var elen = end.length;
-	var slen = s.length;
-	var $tmp = slen >= elen && s.substr(slen - elen,elen) == end;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.isSpace = function(s,pos) {
-	$s.push("StringTools::isSpace");
-	var $spos = $s.length;
-	var c = s.charCodeAt(pos);
-	var $tmp = c >= 9 && c <= 13 || c == 32;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.ltrim = function(s) {
-	$s.push("StringTools::ltrim");
-	var $spos = $s.length;
-	var l = s.length;
-	var r = 0;
-	while(r < l && StringTools.isSpace(s,r)) r++;
-	if(r > 0) {
-		var $tmp = s.substr(r,l - r);
-		$s.pop();
-		return $tmp;
-	} else {
-		$s.pop();
-		return s;
-	}
-	$s.pop();
-}
-StringTools.rtrim = function(s) {
-	$s.push("StringTools::rtrim");
-	var $spos = $s.length;
-	var l = s.length;
-	var r = 0;
-	while(r < l && StringTools.isSpace(s,l - r - 1)) r++;
-	if(r > 0) {
-		var $tmp = s.substr(0,l - r);
-		$s.pop();
-		return $tmp;
-	} else {
-		$s.pop();
-		return s;
-	}
-	$s.pop();
-}
-StringTools.trim = function(s) {
-	$s.push("StringTools::trim");
-	var $spos = $s.length;
-	var $tmp = StringTools.ltrim(StringTools.rtrim(s));
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.rpad = function(s,c,l) {
-	$s.push("StringTools::rpad");
-	var $spos = $s.length;
-	var sl = s.length;
-	var cl = c.length;
-	while(sl < l) if(l - sl < cl) {
-		s += c.substr(0,l - sl);
-		sl = l;
-	} else {
-		s += c;
-		sl += cl;
-	}
-	$s.pop();
-	return s;
-	$s.pop();
-}
-StringTools.lpad = function(s,c,l) {
-	$s.push("StringTools::lpad");
-	var $spos = $s.length;
-	var ns = "";
-	var sl = s.length;
-	if(sl >= l) {
-		$s.pop();
-		return s;
-	}
-	var cl = c.length;
-	while(sl < l) if(l - sl < cl) {
-		ns += c.substr(0,l - sl);
-		sl = l;
-	} else {
-		ns += c;
-		sl += cl;
-	}
-	var $tmp = ns + s;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.replace = function(s,sub,by) {
-	$s.push("StringTools::replace");
-	var $spos = $s.length;
-	var $tmp = s.split(sub).join(by);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.hex = function(n,digits) {
-	$s.push("StringTools::hex");
-	var $spos = $s.length;
-	var s = "";
-	var hexChars = "0123456789ABCDEF";
-	do {
-		s = hexChars.charAt(n & 15) + s;
-		n >>>= 4;
-	} while(n > 0);
-	if(digits != null) while(s.length < digits) s = "0" + s;
-	$s.pop();
-	return s;
-	$s.pop();
-}
-StringTools.fastCodeAt = function(s,index) {
-	$s.push("StringTools::fastCodeAt");
-	var $spos = $s.length;
-	var $tmp = s.cca(index);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.isEOF = function(c) {
-	$s.push("StringTools::isEOF");
-	var $spos = $s.length;
-	var $tmp = c != c;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-StringTools.prototype.__class__ = StringTools;
-E_Unit = { __ename__ : ["E_Unit"], __constructs__ : ["RATIO","PX","PERCENT"] }
-E_Unit.RATIO = ["RATIO",0];
-E_Unit.RATIO.toString = $estr;
-E_Unit.RATIO.__enum__ = E_Unit;
-E_Unit.PX = ["PX",1];
-E_Unit.PX.toString = $estr;
-E_Unit.PX.__enum__ = E_Unit;
-E_Unit.PERCENT = ["PERCENT",2];
-E_Unit.PERCENT.toString = $estr;
-E_Unit.PERCENT.__enum__ = E_Unit;
-X_predef = { __ename__ : ["X_predef"], __constructs__ : ["LEFT","CENTER","RIGHT","NB"] }
-X_predef.LEFT = ["LEFT",0];
-X_predef.LEFT.toString = $estr;
-X_predef.LEFT.__enum__ = X_predef;
-X_predef.CENTER = ["CENTER",1];
-X_predef.CENTER.toString = $estr;
-X_predef.CENTER.__enum__ = X_predef;
-X_predef.RIGHT = ["RIGHT",2];
-X_predef.RIGHT.toString = $estr;
-X_predef.RIGHT.__enum__ = X_predef;
-X_predef.NB = function(v,unit) { var $x = ["NB",3,v,unit]; $x.__enum__ = X_predef; $x.toString = $estr; return $x; }
-Y_predef = { __ename__ : ["Y_predef"], __constructs__ : ["TOP","CENTER","BOTTOM","NB"] }
-Y_predef.TOP = ["TOP",0];
-Y_predef.TOP.toString = $estr;
-Y_predef.TOP.__enum__ = Y_predef;
-Y_predef.CENTER = ["CENTER",1];
-Y_predef.CENTER.toString = $estr;
-Y_predef.CENTER.__enum__ = Y_predef;
-Y_predef.BOTTOM = ["BOTTOM",2];
-Y_predef.BOTTOM.toString = $estr;
-Y_predef.BOTTOM.__enum__ = Y_predef;
-Y_predef.NB = function(v,unit) { var $x = ["NB",3,v,unit]; $x.__enum__ = Y_predef; $x.toString = $estr; return $x; }
-CeaVal = function(p) {
-	$s.push("CeaVal::new");
-	var $spos = $s.length;
-	$s.pop();
-}
-CeaVal.__name__ = ["CeaVal"];
-CeaVal.prototype.x = null;
-CeaVal.prototype.y = null;
-CeaVal.prototype.getX = function() {
-	$s.push("CeaVal::getX");
+cease.CeaVal.__name__ = ["cease","CeaVal"];
+cease.CeaVal.prototype.x = null;
+cease.CeaVal.prototype.y = null;
+cease.CeaVal.prototype.getX = function() {
+	$s.push("cease.CeaVal::getX");
 	var $spos = $s.length;
 	var $tmp = this.x;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-CeaVal.prototype.setX = function(_value) {
-	$s.push("CeaVal::setX");
+cease.CeaVal.prototype.setX = function(_value) {
+	$s.push("cease.CeaVal::setX");
 	var $spos = $s.length;
 	this.x = _value;
 	var $tmp = this.getX();
@@ -784,16 +537,16 @@ CeaVal.prototype.setX = function(_value) {
 	return $tmp;
 	$s.pop();
 }
-CeaVal.prototype.getY = function() {
-	$s.push("CeaVal::getY");
+cease.CeaVal.prototype.getY = function() {
+	$s.push("cease.CeaVal::getY");
 	var $spos = $s.length;
 	var $tmp = this.y;
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-CeaVal.prototype.setY = function(_value) {
-	$s.push("CeaVal::setY");
+cease.CeaVal.prototype.setY = function(_value) {
+	$s.push("cease.CeaVal::setY");
 	var $spos = $s.length;
 	this.y = _value;
 	var $tmp = this.getY();
@@ -801,22 +554,22 @@ CeaVal.prototype.setY = function(_value) {
 	return $tmp;
 	$s.pop();
 }
-CeaVal.prototype.set = function(_value) {
-	$s.push("CeaVal::set");
+cease.CeaVal.prototype.set = function(_value) {
+	$s.push("cease.CeaVal::set");
 	var $spos = $s.length;
 	this.setX(_value.x);
 	this.setY(_value.y);
 	$s.pop();
 }
-CeaVal.prototype.toString = function() {
-	$s.push("CeaVal::toString");
+cease.CeaVal.prototype.toString = function() {
+	$s.push("cease.CeaVal::toString");
 	var $spos = $s.length;
 	var $tmp = "{ x : " + this.getX() + ", y : " + this.getY() + " }";
 	$s.pop();
 	return $tmp;
 	$s.pop();
 }
-CeaVal.prototype.__class__ = CeaVal;
+cease.CeaVal.prototype.__class__ = cease.CeaVal;
 List = function(p) {
 	if( p === $_ ) return;
 	$s.push("List::new");
@@ -1109,6 +862,894 @@ EReg.prototype.customReplace = function(s,f) {
 	$s.pop();
 }
 EReg.prototype.__class__ = EReg;
+cease.Cease = function() { }
+cease.Cease.__name__ = ["cease","Cease"];
+cease.Cease.j = function(_selector) {
+	$s.push("cease.Cease::j");
+	var $spos = $s.length;
+	var $tmp = new js.JQuery(_selector);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+cease.Cease.checkTimer = null;
+cease.Cease.main = function() {
+	$s.push("cease.Cease::main");
+	var $spos = $s.length;
+	cease.Cease.document.ready(function(_event) {
+		$s.push("cease.Cease::main@27");
+		var $spos = $s.length;
+		var l_body = js.Lib.document.getElementsByTagName("body")[0];
+		var l_dbgDiv = js.Lib.document.createElement("div");
+		l_dbgDiv.setAttribute("id","debug");
+		l_dbgDiv.innerHTML = "<div id=\"haxe:trace\"></div>";
+		l_body.appendChild(l_dbgDiv);
+		if(haxe.Firebug.detect()) haxe.Firebug.redirectTraces(); else haxe.Log.trace("Firebug not detected",{ fileName : "Cease.hx", lineNumber : 36, className : "cease.Cease", methodName : "main"});
+		cease.Cease.initialize();
+		$s.pop();
+	});
+	$s.pop();
+}
+cease.Cease.initialize = function() {
+	$s.push("cease.Cease::initialize");
+	var $spos = $s.length;
+	haxe.Log.trace("blop",{ fileName : "Cease.hx", lineNumber : 53, className : "cease.Cease", methodName : "initialize"});
+	var l_ceaseElements = cease.Cease.j(".cease");
+	l_ceaseElements.each(function() {
+		$s.push("cease.Cease::initialize@57");
+		var $spos = $s.length;
+		var l_cur = $(this);
+		var l_str = l_cur.attr("cease");
+		var l_ceaMent = new cease.CeaMent(l_cur);
+		haxe.Log.trace(l_str,{ fileName : "Cease.hx", lineNumber : 64, className : "cease.Cease", methodName : "initialize"});
+		cease.Cease.parseCease(l_str,l_ceaMent);
+		haxe.Log.trace(l_ceaMent + "",{ fileName : "Cease.hx", lineNumber : 66, className : "cease.Cease", methodName : "initialize"});
+		l_ceaMent.updatePos();
+		l_ceaMent.updateSize();
+		cease.Cease.ceaseElements.add(l_ceaMent);
+		$s.pop();
+	});
+	cease.Cease.checkTimer = new haxe.Timer(40);
+	cease.Cease.checkTimer.run = cease.Cease.checkRefChange;
+	$s.pop();
+}
+cease.Cease.checkRefChange = function() {
+	$s.push("cease.Cease::checkRefChange");
+	var $spos = $s.length;
+	if(!cease.Cease.checking) {
+		cease.Cease.checking = true;
+		var $it0 = cease.Cease.ceaseElements.iterator();
+		while( $it0.hasNext() ) {
+			var i_ceaMent = $it0.next();
+			i_ceaMent.update();
+		}
+	}
+	cease.Cease.checking = false;
+	$s.pop();
+}
+cease.Cease.parseCease = function(_string,_destElement) {
+	$s.push("cease.Cease::parseCease");
+	var $spos = $s.length;
+	var l_parseStr = StringTools.trim(_string);
+	if(StringTools.endsWith(l_parseStr,";")) l_parseStr = l_parseStr.substr(0,l_parseStr.length - 1);
+	var l_attrStrArray = StringTools.trim(l_parseStr).split(";");
+	var _g = 0;
+	while(_g < l_attrStrArray.length) {
+		var i_attrStr = l_attrStrArray[_g];
+		++_g;
+		var l_attrNameAndValueStrArray = StringTools.trim(i_attrStr).split(":");
+		var l_attrNameStr = StringTools.trim(l_attrNameAndValueStrArray[0]);
+		var l_attrValueStr = StringTools.trim(l_attrNameAndValueStrArray[1]);
+		switch(l_attrNameStr) {
+		case "ref":
+			var l_jQref = (function($this) {
+				var $r;
+				switch(l_attrValueStr) {
+				case "parent":
+					$r = cease.REF_predef.PARENT;
+					break;
+				case "prev":
+					$r = cease.REF_predef.PREV;
+					break;
+				case "next":
+					$r = cease.REF_predef.NEXT;
+					break;
+				case "document":
+					$r = cease.REF_predef.DOCUMENT;
+					break;
+				case "window":
+					$r = cease.REF_predef.WINDOW;
+					break;
+				default:
+					$r = cease.REF_predef.SELECTOR(l_attrValueStr);
+				}
+				return $r;
+			}(this));
+			_destElement.setRef(l_jQref);
+			break;
+		case "size":case "pivot":case "position":
+			var l_xyStrArray = cease.Cease.spaceSeparatorRegExp.split(StringTools.trim(l_attrValueStr));
+			if(l_xyStrArray.length != 2) {
+				haxe.Log.trace("Attribute \"" + l_attrNameStr + "\" needs 2 parameters : \"x y\"",{ fileName : "Cease.hx", lineNumber : 130, className : "cease.Cease", methodName : "parseCease"});
+				if(l_xyStrArray.length == 1) haxe.Log.trace("optional parameters are not yet supported.",{ fileName : "Cease.hx", lineNumber : 133, className : "cease.Cease", methodName : "parseCease"});
+			}
+			var l_xStr = StringTools.trim(l_xyStrArray[0]);
+			var l_yStr = StringTools.trim(l_xyStrArray[1]);
+			var l_x = (function($this) {
+				var $r;
+				switch(l_xStr) {
+				case "left":
+					$r = cease.X_predef.LEFT;
+					break;
+				case "center":
+					$r = cease.X_predef.CENTER;
+					break;
+				case "right":
+					$r = cease.X_predef.RIGHT;
+					break;
+				default:
+					$r = (function($this) {
+						var $r;
+						var l_eReg = cease.Cease.decimalNbRegExp;
+						$r = l_eReg.match(l_xStr)?(function($this) {
+							var $r;
+							var v = Std.parseFloat(l_eReg.matched(0));
+							var l_unitStr = l_eReg.matchedRight();
+							var unit = (function($this) {
+								var $r;
+								switch(l_unitStr) {
+								case "":
+									$r = cease.E_Unit.RATIO;
+									break;
+								case "%":
+									$r = cease.E_Unit.PERCENT;
+									break;
+								case "px":
+									$r = cease.E_Unit.PX;
+									break;
+								default:
+									$r = (function($this) {
+										var $r;
+										haxe.Log.trace("Invalid unit \"" + l_unitStr + "\" for value \"" + l_xStr + "\". using \"px\" instead.",{ fileName : "Cease.hx", lineNumber : 160, className : "cease.Cease", methodName : "parseCease"});
+										$r = cease.E_Unit.PX;
+										return $r;
+									}($this));
+								}
+								return $r;
+							}($this));
+							$r = cease.X_predef.NB(v,unit);
+							return $r;
+						}($this)):(function($this) {
+							var $r;
+							haxe.Log.trace("Invalid value \"" + l_xStr + "\" for parameter x of attribute \"" + l_attrNameStr + "\". using \"left\" instead",{ fileName : "Cease.hx", lineNumber : 168, className : "cease.Cease", methodName : "parseCease"});
+							$r = cease.X_predef.LEFT;
+							return $r;
+						}($this));
+						return $r;
+					}($this));
+				}
+				return $r;
+			}(this));
+			var l_y = (function($this) {
+				var $r;
+				switch(l_yStr) {
+				case "top":
+					$r = cease.Y_predef.TOP;
+					break;
+				case "center":
+					$r = cease.Y_predef.CENTER;
+					break;
+				case "bottom":
+					$r = cease.Y_predef.BOTTOM;
+					break;
+				default:
+					$r = (function($this) {
+						var $r;
+						var l_eReg = cease.Cease.decimalNbRegExp;
+						$r = l_eReg.match(l_yStr)?(function($this) {
+							var $r;
+							var v = Std.parseFloat(l_eReg.matched(0));
+							var l_unitStr = l_eReg.matchedRight();
+							var unit = (function($this) {
+								var $r;
+								switch(l_unitStr) {
+								case "":
+									$r = cease.E_Unit.RATIO;
+									break;
+								case "%":
+									$r = cease.E_Unit.PERCENT;
+									break;
+								case "px":
+									$r = cease.E_Unit.PX;
+									break;
+								default:
+									$r = (function($this) {
+										var $r;
+										haxe.Log.trace("Invalid unit \"" + l_unitStr + "\" for value \"" + l_yStr + "\". using \"px\" instead.",{ fileName : "Cease.hx", lineNumber : 193, className : "cease.Cease", methodName : "parseCease"});
+										$r = cease.E_Unit.PX;
+										return $r;
+									}($this));
+								}
+								return $r;
+							}($this));
+							$r = cease.Y_predef.NB(v,unit);
+							return $r;
+						}($this)):(function($this) {
+							var $r;
+							haxe.Log.trace("Invalid value \"" + l_yStr + "\" for parameter y of attribute \"" + l_attrNameStr + "\". using \"top\" instead",{ fileName : "Cease.hx", lineNumber : 201, className : "cease.Cease", methodName : "parseCease"});
+							$r = cease.Y_predef.TOP;
+							return $r;
+						}($this));
+						return $r;
+					}($this));
+				}
+				return $r;
+			}(this));
+			switch(l_attrNameStr) {
+			case "size":
+				var validValue = true;
+				var $e = (l_x);
+				switch( $e[1] ) {
+				case 3:
+					var unit = $e[3], v = $e[2];
+					break;
+				default:
+					validValue = false;
+					haxe.Log.trace("The size.x attribute only accept numerical values",{ fileName : "Cease.hx", lineNumber : 216, className : "cease.Cease", methodName : "parseCease"});
+				}
+				var $e = (l_y);
+				switch( $e[1] ) {
+				case 3:
+					var unit = $e[3], v = $e[2];
+					break;
+				default:
+					validValue = false;
+					haxe.Log.trace("The size.y attribute only accept numerical values",{ fileName : "Cease.hx", lineNumber : 224, className : "cease.Cease", methodName : "parseCease"});
+				}
+				if(validValue) _destElement.setSize({ x : l_x, y : l_y});
+				break;
+			case "pivot":
+				_destElement.setPivot({ x : l_x, y : l_y});
+				break;
+			case "position":
+				_destElement.setPosition({ x : l_x, y : l_y});
+				break;
+			}
+			break;
+		default:
+			haxe.Log.trace("Invalid attribute name \"" + l_attrNameStr + "\"",{ fileName : "Cease.hx", lineNumber : 243, className : "cease.Cease", methodName : "parseCease"});
+		}
+	}
+	if(_destElement.ref == null) _destElement.ref = cease.REF_predef.PARENT;
+	if(_destElement.pivot == null) _destElement.pivot.set({ x : cease.X_predef.LEFT, y : cease.Y_predef.TOP});
+	$s.pop();
+}
+cease.Cease.prototype.__class__ = cease.Cease;
+haxe.Timer = function(time_ms) {
+	if( time_ms === $_ ) return;
+	$s.push("haxe.Timer::new");
+	var $spos = $s.length;
+	var arr = haxe_timers;
+	this.id = arr.length;
+	arr[this.id] = this;
+	this.timerId = window.setInterval("haxe_timers[" + this.id + "].run();",time_ms);
+	$s.pop();
+}
+haxe.Timer.__name__ = ["haxe","Timer"];
+haxe.Timer.delay = function(f,time_ms) {
+	$s.push("haxe.Timer::delay");
+	var $spos = $s.length;
+	var t = new haxe.Timer(time_ms);
+	t.run = function() {
+		$s.push("haxe.Timer::delay@79");
+		var $spos = $s.length;
+		t.stop();
+		f();
+		$s.pop();
+	};
+	$s.pop();
+	return t;
+	$s.pop();
+}
+haxe.Timer.measure = function(f,pos) {
+	$s.push("haxe.Timer::measure");
+	var $spos = $s.length;
+	var t0 = haxe.Timer.stamp();
+	var r = f();
+	haxe.Log.trace(haxe.Timer.stamp() - t0 + "s",pos);
+	$s.pop();
+	return r;
+	$s.pop();
+}
+haxe.Timer.stamp = function() {
+	$s.push("haxe.Timer::stamp");
+	var $spos = $s.length;
+	var $tmp = Date.now().getTime() / 1000;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+haxe.Timer.prototype.id = null;
+haxe.Timer.prototype.timerId = null;
+haxe.Timer.prototype.stop = function() {
+	$s.push("haxe.Timer::stop");
+	var $spos = $s.length;
+	if(this.id == null) {
+		$s.pop();
+		return;
+	}
+	window.clearInterval(this.timerId);
+	var arr = haxe_timers;
+	arr[this.id] = null;
+	if(this.id > 100 && this.id == arr.length - 1) {
+		var p = this.id - 1;
+		while(p >= 0 && arr[p] == null) p--;
+		arr = arr.slice(0,p + 1);
+	}
+	this.id = null;
+	$s.pop();
+}
+haxe.Timer.prototype.run = function() {
+	$s.push("haxe.Timer::run");
+	var $spos = $s.length;
+	$s.pop();
+}
+haxe.Timer.prototype.__class__ = haxe.Timer;
+StringTools = function() { }
+StringTools.__name__ = ["StringTools"];
+StringTools.urlEncode = function(s) {
+	$s.push("StringTools::urlEncode");
+	var $spos = $s.length;
+	var $tmp = encodeURIComponent(s);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.urlDecode = function(s) {
+	$s.push("StringTools::urlDecode");
+	var $spos = $s.length;
+	var $tmp = decodeURIComponent(s.split("+").join(" "));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.htmlEscape = function(s) {
+	$s.push("StringTools::htmlEscape");
+	var $spos = $s.length;
+	var $tmp = s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.htmlUnescape = function(s) {
+	$s.push("StringTools::htmlUnescape");
+	var $spos = $s.length;
+	var $tmp = s.split("&gt;").join(">").split("&lt;").join("<").split("&amp;").join("&");
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.startsWith = function(s,start) {
+	$s.push("StringTools::startsWith");
+	var $spos = $s.length;
+	var $tmp = s.length >= start.length && s.substr(0,start.length) == start;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.endsWith = function(s,end) {
+	$s.push("StringTools::endsWith");
+	var $spos = $s.length;
+	var elen = end.length;
+	var slen = s.length;
+	var $tmp = slen >= elen && s.substr(slen - elen,elen) == end;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.isSpace = function(s,pos) {
+	$s.push("StringTools::isSpace");
+	var $spos = $s.length;
+	var c = s.charCodeAt(pos);
+	var $tmp = c >= 9 && c <= 13 || c == 32;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.ltrim = function(s) {
+	$s.push("StringTools::ltrim");
+	var $spos = $s.length;
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,r)) r++;
+	if(r > 0) {
+		var $tmp = s.substr(r,l - r);
+		$s.pop();
+		return $tmp;
+	} else {
+		$s.pop();
+		return s;
+	}
+	$s.pop();
+}
+StringTools.rtrim = function(s) {
+	$s.push("StringTools::rtrim");
+	var $spos = $s.length;
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,l - r - 1)) r++;
+	if(r > 0) {
+		var $tmp = s.substr(0,l - r);
+		$s.pop();
+		return $tmp;
+	} else {
+		$s.pop();
+		return s;
+	}
+	$s.pop();
+}
+StringTools.trim = function(s) {
+	$s.push("StringTools::trim");
+	var $spos = $s.length;
+	var $tmp = StringTools.ltrim(StringTools.rtrim(s));
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.rpad = function(s,c,l) {
+	$s.push("StringTools::rpad");
+	var $spos = $s.length;
+	var sl = s.length;
+	var cl = c.length;
+	while(sl < l) if(l - sl < cl) {
+		s += c.substr(0,l - sl);
+		sl = l;
+	} else {
+		s += c;
+		sl += cl;
+	}
+	$s.pop();
+	return s;
+	$s.pop();
+}
+StringTools.lpad = function(s,c,l) {
+	$s.push("StringTools::lpad");
+	var $spos = $s.length;
+	var ns = "";
+	var sl = s.length;
+	if(sl >= l) {
+		$s.pop();
+		return s;
+	}
+	var cl = c.length;
+	while(sl < l) if(l - sl < cl) {
+		ns += c.substr(0,l - sl);
+		sl = l;
+	} else {
+		ns += c;
+		sl += cl;
+	}
+	var $tmp = ns + s;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.replace = function(s,sub,by) {
+	$s.push("StringTools::replace");
+	var $spos = $s.length;
+	var $tmp = s.split(sub).join(by);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.hex = function(n,digits) {
+	$s.push("StringTools::hex");
+	var $spos = $s.length;
+	var s = "";
+	var hexChars = "0123456789ABCDEF";
+	do {
+		s = hexChars.charAt(n & 15) + s;
+		n >>>= 4;
+	} while(n > 0);
+	if(digits != null) while(s.length < digits) s = "0" + s;
+	$s.pop();
+	return s;
+	$s.pop();
+}
+StringTools.fastCodeAt = function(s,index) {
+	$s.push("StringTools::fastCodeAt");
+	var $spos = $s.length;
+	var $tmp = s.cca(index);
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.isEOF = function(c) {
+	$s.push("StringTools::isEOF");
+	var $spos = $s.length;
+	var $tmp = c != c;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+StringTools.prototype.__class__ = StringTools;
+cease.CeaAttr = { __ename__ : ["cease","CeaAttr"], __constructs__ : ["SIZE","PIVOT","POSITION"] }
+cease.CeaAttr.SIZE = ["SIZE",0];
+cease.CeaAttr.SIZE.toString = $estr;
+cease.CeaAttr.SIZE.__enum__ = cease.CeaAttr;
+cease.CeaAttr.PIVOT = ["PIVOT",1];
+cease.CeaAttr.PIVOT.toString = $estr;
+cease.CeaAttr.PIVOT.__enum__ = cease.CeaAttr;
+cease.CeaAttr.POSITION = ["POSITION",2];
+cease.CeaAttr.POSITION.toString = $estr;
+cease.CeaAttr.POSITION.__enum__ = cease.CeaAttr;
+cease.REF_predef = { __ename__ : ["cease","REF_predef"], __constructs__ : ["PARENT","PREV","NEXT","DOCUMENT","WINDOW","SELECTOR"] }
+cease.REF_predef.PARENT = ["PARENT",0];
+cease.REF_predef.PARENT.toString = $estr;
+cease.REF_predef.PARENT.__enum__ = cease.REF_predef;
+cease.REF_predef.PREV = ["PREV",1];
+cease.REF_predef.PREV.toString = $estr;
+cease.REF_predef.PREV.__enum__ = cease.REF_predef;
+cease.REF_predef.NEXT = ["NEXT",2];
+cease.REF_predef.NEXT.toString = $estr;
+cease.REF_predef.NEXT.__enum__ = cease.REF_predef;
+cease.REF_predef.DOCUMENT = ["DOCUMENT",3];
+cease.REF_predef.DOCUMENT.toString = $estr;
+cease.REF_predef.DOCUMENT.__enum__ = cease.REF_predef;
+cease.REF_predef.WINDOW = ["WINDOW",4];
+cease.REF_predef.WINDOW.toString = $estr;
+cease.REF_predef.WINDOW.__enum__ = cease.REF_predef;
+cease.REF_predef.SELECTOR = function(s) { var $x = ["SELECTOR",5,s]; $x.__enum__ = cease.REF_predef; $x.toString = $estr; return $x; }
+cease.CeaMent = function(_jQelement) {
+	if( _jQelement === $_ ) return;
+	$s.push("cease.CeaMent::new");
+	var $spos = $s.length;
+	this.size = null;
+	this.pivot = null;
+	this.pos = null;
+	this.target = _jQelement;
+	this.ref = null;
+	this.m_prevRefSize = { x : 0, y : 0};
+	this.m_prevRefPos = { x : 0, y : 0};
+	$s.pop();
+}
+cease.CeaMent.__name__ = ["cease","CeaMent"];
+cease.CeaMent.prototype.target = null;
+cease.CeaMent.prototype.jQref = null;
+cease.CeaMent.prototype.m_prevRefSize = null;
+cease.CeaMent.prototype.m_prevRefPos = null;
+cease.CeaMent.prototype.ref = null;
+cease.CeaMent.prototype.size = null;
+cease.CeaMent.prototype.pivot = null;
+cease.CeaMent.prototype.pos = null;
+cease.CeaMent.prototype.getjQ = function() {
+	$s.push("cease.CeaMent::getjQ");
+	var $spos = $s.length;
+	var $tmp = this.target;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+cease.CeaMent.prototype.setRef = function(_ref) {
+	$s.push("cease.CeaMent::setRef");
+	var $spos = $s.length;
+	this.ref = _ref;
+	var l_selectorStr = "";
+	var l_jQref = (function($this) {
+		var $r;
+		var $e = ($this.ref);
+		switch( $e[1] ) {
+		case 4:
+			$r = cease.Cease.window;
+			break;
+		case 3:
+			$r = cease.Cease.document;
+			break;
+		case 0:
+			$r = $this.getjQ().parent();
+			break;
+		case 1:
+			$r = $this.getjQ().prev();
+			break;
+		case 2:
+			$r = $this.getjQ().next();
+			break;
+		case 5:
+			var s = $e[2];
+			$r = (function($this) {
+				var $r;
+				l_selectorStr = s;
+				$r = new js.JQuery(s);
+				return $r;
+			}($this));
+			break;
+		}
+		return $r;
+	}(this));
+	this.jQref = l_jQref;
+	if(l_jQref.size() != 1) {
+		if(this.ref != cease.REF_predef.PARENT) {
+			if(l_jQref.size() == 0) haxe.Log.trace("Invalid value \"" + this.ref + "\" for attribute \"ref\"",{ fileName : "CeaMent.hx", lineNumber : 80, className : "cease.CeaMent", methodName : "setRef"}); else {
+				haxe.Log.trace("Invalid number of matched element with selector \"" + l_selectorStr + "\" for attribute \"ref\"",{ fileName : "CeaMent.hx", lineNumber : 84, className : "cease.CeaMent", methodName : "setRef"});
+				haxe.Log.trace("Multiple ref is not yet supported, your css selector should match one unique element",{ fileName : "CeaMent.hx", lineNumber : 85, className : "cease.CeaMent", methodName : "setRef"});
+			}
+			haxe.Log.trace("Using parent as ref instead.",{ fileName : "CeaMent.hx", lineNumber : 87, className : "cease.CeaMent", methodName : "setRef"});
+			this.setRef(cease.REF_predef.PARENT);
+		} else {
+			haxe.Log.trace("This element doesn't have a parent. Using document instead.",{ fileName : "CeaMent.hx", lineNumber : 92, className : "cease.CeaMent", methodName : "setRef"});
+			this.setRef(cease.REF_predef.DOCUMENT);
+		}
+	}
+	$s.pop();
+}
+cease.CeaMent.prototype.setSize = function(_value) {
+	$s.push("cease.CeaMent::setSize");
+	var $spos = $s.length;
+	if(this.size == null) this.size = new cease.CeaVal();
+	this.size.set(_value);
+	$s.pop();
+}
+cease.CeaMent.prototype.setPivot = function(_value) {
+	$s.push("cease.CeaMent::setPivot");
+	var $spos = $s.length;
+	if(this.pivot == null) this.pivot = new cease.CeaVal();
+	this.pivot.set(_value);
+	$s.pop();
+}
+cease.CeaMent.prototype.setPosition = function(_value) {
+	$s.push("cease.CeaMent::setPosition");
+	var $spos = $s.length;
+	if(this.pos == null) this.pos = new cease.CeaVal();
+	this.pos.set(_value);
+	$s.pop();
+}
+cease.CeaMent.prototype.isParentResized = function() {
+	$s.push("cease.CeaMent::isParentResized");
+	var $spos = $s.length;
+	var l_refSize = this.getSize(this.ref);
+	var $tmp = this.m_prevRefSize.x != l_refSize.x || this.m_prevRefSize.y != l_refSize.y;
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+cease.CeaMent.prototype.update = function() {
+	$s.push("cease.CeaMent::update");
+	var $spos = $s.length;
+	if(this.isParentResized()) {
+		if(!this.updateSize()) this.updatePos();
+	}
+	$s.pop();
+}
+cease.CeaMent.prototype.updateSize = function() {
+	$s.push("cease.CeaMent::updateSize");
+	var $spos = $s.length;
+	if(this.size != null) {
+		var l_coord;
+		l_coord = this.getPx(cease.CeaAttr.SIZE);
+		this.target.width(l_coord.x);
+		this.target.height(l_coord.y);
+		this.updatePos();
+		$s.pop();
+		return true;
+	} else {
+		$s.pop();
+		return false;
+	}
+	$s.pop();
+}
+cease.CeaMent.prototype.updatePos = function() {
+	$s.push("cease.CeaMent::updatePos");
+	var $spos = $s.length;
+	if(this.pos != null) {
+		var l_offset;
+		var l_refOffset;
+		var l_eltPivot;
+		var l_eltPos;
+		l_refOffset = this.getOffset(this.ref);
+		l_eltPivot = this.getPx(cease.CeaAttr.PIVOT);
+		l_eltPos = this.getPx(cease.CeaAttr.POSITION);
+		l_offset = { x : l_refOffset.x + l_eltPos.x - l_eltPivot.x, y : l_refOffset.y + l_eltPos.y - l_eltPivot.y};
+		this.target.offset({ top : l_offset.y, left : l_offset.x});
+		$s.pop();
+		return true;
+	} else {
+		$s.pop();
+		return false;
+	}
+	$s.pop();
+}
+cease.CeaMent.prototype.getPx = function(_attr) {
+	$s.push("cease.CeaMent::getPx");
+	var $spos = $s.length;
+	var _coord;
+	_coord = this.getPxValues(_attr);
+	$s.pop();
+	return _coord;
+	$s.pop();
+}
+cease.CeaMent.prototype.getOffset = function(_ref) {
+	$s.push("cease.CeaMent::getOffset");
+	var $spos = $s.length;
+	var _offset;
+	_offset = (function($this) {
+		var $r;
+		var $e = (_ref);
+		switch( $e[1] ) {
+		case 4:
+		case 3:
+			$r = { x : 0, y : 0};
+			break;
+		case 0:
+		case 1:
+		case 2:
+			$r = { x : $this.jQref.offset().left, y : $this.jQref.offset().top};
+			break;
+		case 5:
+			var s = $e[2];
+			$r = { x : $this.jQref.offset().left, y : $this.jQref.offset().top};
+			break;
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return _offset;
+	$s.pop();
+}
+cease.CeaMent.prototype.getSize = function(_ref) {
+	$s.push("cease.CeaMent::getSize");
+	var $spos = $s.length;
+	var _size;
+	_size = (function($this) {
+		var $r;
+		switch(_ref) {
+		default:
+			$r = { x : $this.jQref.width(), y : $this.jQref.height()};
+		}
+		return $r;
+	}(this));
+	$s.pop();
+	return _size;
+	$s.pop();
+}
+cease.CeaMent.prototype.getPxValues = function(_attr) {
+	$s.push("cease.CeaMent::getPxValues");
+	var $spos = $s.length;
+	var $tmp = { x : this.xToPixels(_attr), y : this.yToPixels(_attr)};
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+cease.CeaMent.prototype.xToPixels = function(_attr) {
+	$s.push("cease.CeaMent::xToPixels");
+	var $spos = $s.length;
+	var _rValue;
+	var l_ceaVal;
+	var l_ref;
+	switch( (_attr)[1] ) {
+	case 0:
+		l_ceaVal = this.size;
+		l_ref = this.jQref;
+		break;
+	case 1:
+		l_ceaVal = this.pivot;
+		l_ref = this.target;
+		break;
+	case 2:
+		l_ceaVal = this.pos;
+		l_ref = this.jQref;
+		break;
+	}
+	var l_unit;
+	var l_rawValue;
+	var $e = (l_ceaVal.getX());
+	switch( $e[1] ) {
+	case 0:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 0.0;
+		break;
+	case 1:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 0.5;
+		break;
+	case 2:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 1.0;
+		break;
+	case 3:
+		var unit = $e[3], v = $e[2];
+		l_unit = unit;
+		l_rawValue = (function($this) {
+			var $r;
+			switch( (unit)[1] ) {
+			case 0:
+				$r = v;
+				break;
+			case 2:
+				$r = v * 0.01;
+				break;
+			case 1:
+				$r = v;
+				break;
+			}
+			return $r;
+		}(this));
+		break;
+	}
+	_rValue = Std["int"](l_unit == cease.E_Unit.PX?l_rawValue:l_rawValue * l_ref.width());
+	$s.pop();
+	return _rValue;
+	$s.pop();
+}
+cease.CeaMent.prototype.yToPixels = function(_attr) {
+	$s.push("cease.CeaMent::yToPixels");
+	var $spos = $s.length;
+	var _rValue;
+	var l_ceaVal;
+	var l_ref;
+	switch( (_attr)[1] ) {
+	case 0:
+		l_ceaVal = this.size;
+		l_ref = this.jQref;
+		break;
+	case 1:
+		l_ceaVal = this.pivot;
+		l_ref = this.target;
+		break;
+	case 2:
+		l_ceaVal = this.pos;
+		l_ref = this.jQref;
+		break;
+	}
+	var l_unit;
+	var l_rawValue;
+	var $e = (l_ceaVal.getY());
+	switch( $e[1] ) {
+	case 0:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 0.0;
+		break;
+	case 1:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 0.5;
+		break;
+	case 2:
+		l_unit = cease.E_Unit.RATIO;
+		l_rawValue = 1.0;
+		break;
+	case 3:
+		var unit = $e[3], v = $e[2];
+		l_unit = unit;
+		l_rawValue = (function($this) {
+			var $r;
+			switch( (unit)[1] ) {
+			case 0:
+				$r = v;
+				break;
+			case 2:
+				$r = v * 0.01;
+				break;
+			case 1:
+				$r = v;
+				break;
+			}
+			return $r;
+		}(this));
+		break;
+	}
+	_rValue = Std["int"](l_unit == cease.E_Unit.PX?l_rawValue:l_rawValue * l_ref.height());
+	$s.pop();
+	return _rValue;
+	$s.pop();
+}
+cease.CeaMent.prototype.toString = function() {
+	$s.push("cease.CeaMent::toString");
+	var $spos = $s.length;
+	var $tmp = "{ target : " + this.target + ", ref : " + this.ref + ", size : " + this.size + ", pivot : " + this.pivot + ", position : " + this.pos + " }";
+	$s.pop();
+	return $tmp;
+	$s.pop();
+}
+cease.CeaMent.prototype.__class__ = cease.CeaMent;
 StringBuf = function(p) {
 	if( p === $_ ) return;
 	$s.push("StringBuf::new");
@@ -1173,647 +1814,6 @@ IntIter.prototype.next = function() {
 	$s.pop();
 }
 IntIter.prototype.__class__ = IntIter;
-Cease = function() { }
-Cease.__name__ = ["Cease"];
-Cease.j = function(_selector) {
-	$s.push("Cease::j");
-	var $spos = $s.length;
-	var $tmp = new js.JQuery(_selector);
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-Cease.checkTimer = null;
-Cease.main = function() {
-	$s.push("Cease::main");
-	var $spos = $s.length;
-	Cease.document.ready(function(_event) {
-		$s.push("Cease::main@28");
-		var $spos = $s.length;
-		var l_body = js.Lib.document.getElementsByTagName("body")[0];
-		var l_dbgDiv = js.Lib.document.createElement("div");
-		l_dbgDiv.setAttribute("id","debug");
-		l_dbgDiv.innerHTML = "<div id=\"haxe:trace\"></div>";
-		l_body.appendChild(l_dbgDiv);
-		if(haxe.Firebug.detect()) haxe.Firebug.redirectTraces(); else haxe.Log.trace("Firebug not detected",{ fileName : "Cease.hx", lineNumber : 37, className : "Cease", methodName : "main"});
-		Cease.initialize();
-		$s.pop();
-	});
-	$s.pop();
-}
-Cease.initialize = function() {
-	$s.push("Cease::initialize");
-	var $spos = $s.length;
-	haxe.Log.trace("blop",{ fileName : "Cease.hx", lineNumber : 54, className : "Cease", methodName : "initialize"});
-	var l_ceaseElements = Cease.j(".cease");
-	l_ceaseElements.html("got it !");
-	l_ceaseElements.each(function() {
-		$s.push("Cease::initialize@58");
-		var $spos = $s.length;
-		var l_cur = $(this);
-		var l_str = l_cur.attr("cease");
-		var l_ceaMent = new CeaMent(l_cur);
-		haxe.Log.trace(l_str,{ fileName : "Cease.hx", lineNumber : 65, className : "Cease", methodName : "initialize"});
-		Cease.parseCease(l_str,l_ceaMent);
-		haxe.Log.trace(l_ceaMent + "",{ fileName : "Cease.hx", lineNumber : 67, className : "Cease", methodName : "initialize"});
-		l_ceaMent.updatePos();
-		l_ceaMent.updateSize();
-		Cease.ceaseElements.add(l_ceaMent);
-		$s.pop();
-	});
-	Cease.checkTimer = new haxe.Timer(80);
-	Cease.checkTimer.run = Cease.checkRefChange;
-	$s.pop();
-}
-Cease.checkRefChange = function() {
-	$s.push("Cease::checkRefChange");
-	var $spos = $s.length;
-	var $it0 = Cease.ceaseElements.iterator();
-	while( $it0.hasNext() ) {
-		var i_ceaMent = $it0.next();
-		i_ceaMent.update();
-	}
-	$s.pop();
-}
-Cease.parseCease = function(_string,_destElement) {
-	$s.push("Cease::parseCease");
-	var $spos = $s.length;
-	var l_parseStr = StringTools.trim(_string);
-	if(StringTools.endsWith(l_parseStr,";")) l_parseStr = l_parseStr.substr(0,l_parseStr.length - 1);
-	var l_attrStrArray = StringTools.trim(l_parseStr).split(";");
-	var _g = 0;
-	while(_g < l_attrStrArray.length) {
-		var i_attrStr = l_attrStrArray[_g];
-		++_g;
-		var l_attrNameAndValueStrArray = StringTools.trim(i_attrStr).split(":");
-		var l_attrNameStr = StringTools.trim(l_attrNameAndValueStrArray[0]);
-		var l_attrValueStr = StringTools.trim(l_attrNameAndValueStrArray[1]);
-		switch(l_attrNameStr) {
-		case "ref":
-			var l_jQref = (function($this) {
-				var $r;
-				switch(l_attrValueStr) {
-				case "parent":
-					$r = REF_predef.PARENT;
-					break;
-				case "prev":
-					$r = REF_predef.PREV;
-					break;
-				case "next":
-					$r = REF_predef.NEXT;
-					break;
-				case "document":
-					$r = REF_predef.DOCUMENT;
-					break;
-				case "window":
-					$r = REF_predef.WINDOW;
-					break;
-				default:
-					$r = REF_predef.SELECTOR(l_attrValueStr);
-				}
-				return $r;
-			}(this));
-			_destElement.setRef(l_jQref);
-			break;
-		case "size":case "pivot":case "position":
-			var l_xyStrArray = Cease.spaceSeparatorRegExp.split(StringTools.trim(l_attrValueStr));
-			if(l_xyStrArray.length != 2) {
-				haxe.Log.trace("Attribute \"" + l_attrNameStr + "\" needs 2 parameters : \"x y\"",{ fileName : "Cease.hx", lineNumber : 125, className : "Cease", methodName : "parseCease"});
-				if(l_xyStrArray.length == 1) haxe.Log.trace("optional parameters are not yet supported.",{ fileName : "Cease.hx", lineNumber : 128, className : "Cease", methodName : "parseCease"});
-			}
-			var l_xStr = StringTools.trim(l_xyStrArray[0]);
-			var l_yStr = StringTools.trim(l_xyStrArray[1]);
-			var l_x = (function($this) {
-				var $r;
-				switch(l_xStr) {
-				case "left":
-					$r = X_predef.LEFT;
-					break;
-				case "center":
-					$r = X_predef.CENTER;
-					break;
-				case "right":
-					$r = X_predef.RIGHT;
-					break;
-				default:
-					$r = (function($this) {
-						var $r;
-						var l_eReg = Cease.decimalNbRegExp;
-						$r = l_eReg.match(l_xStr)?(function($this) {
-							var $r;
-							var v = Std.parseFloat(l_eReg.matched(0));
-							var l_unitStr = l_eReg.matchedRight();
-							var unit = (function($this) {
-								var $r;
-								switch(l_unitStr) {
-								case "":
-									$r = E_Unit.RATIO;
-									break;
-								case "%":
-									$r = E_Unit.PERCENT;
-									break;
-								case "px":
-									$r = E_Unit.PX;
-									break;
-								default:
-									$r = (function($this) {
-										var $r;
-										haxe.Log.trace("Invalid unit \"" + l_unitStr + "\" for value \"" + l_xStr + "\". using \"px\" instead.",{ fileName : "Cease.hx", lineNumber : 155, className : "Cease", methodName : "parseCease"});
-										$r = E_Unit.PX;
-										return $r;
-									}($this));
-								}
-								return $r;
-							}($this));
-							$r = X_predef.NB(v,unit);
-							return $r;
-						}($this)):(function($this) {
-							var $r;
-							haxe.Log.trace("Invalid value \"" + l_xStr + "\" for parameter x of attribute \"" + l_attrNameStr + "\". using \"left\" instead",{ fileName : "Cease.hx", lineNumber : 163, className : "Cease", methodName : "parseCease"});
-							$r = X_predef.LEFT;
-							return $r;
-						}($this));
-						return $r;
-					}($this));
-				}
-				return $r;
-			}(this));
-			var l_y = (function($this) {
-				var $r;
-				switch(l_yStr) {
-				case "top":
-					$r = Y_predef.TOP;
-					break;
-				case "center":
-					$r = Y_predef.CENTER;
-					break;
-				case "bottom":
-					$r = Y_predef.BOTTOM;
-					break;
-				default:
-					$r = (function($this) {
-						var $r;
-						var l_eReg = Cease.decimalNbRegExp;
-						$r = l_eReg.match(l_yStr)?(function($this) {
-							var $r;
-							var v = Std.parseFloat(l_eReg.matched(0));
-							var l_unitStr = l_eReg.matchedRight();
-							var unit = (function($this) {
-								var $r;
-								switch(l_unitStr) {
-								case "":
-									$r = E_Unit.RATIO;
-									break;
-								case "%":
-									$r = E_Unit.PERCENT;
-									break;
-								case "px":
-									$r = E_Unit.PX;
-									break;
-								default:
-									$r = (function($this) {
-										var $r;
-										haxe.Log.trace("Invalid unit \"" + l_unitStr + "\" for value \"" + l_yStr + "\". using \"px\" instead.",{ fileName : "Cease.hx", lineNumber : 188, className : "Cease", methodName : "parseCease"});
-										$r = E_Unit.PX;
-										return $r;
-									}($this));
-								}
-								return $r;
-							}($this));
-							$r = Y_predef.NB(v,unit);
-							return $r;
-						}($this)):(function($this) {
-							var $r;
-							haxe.Log.trace("Invalid value \"" + l_yStr + "\" for parameter y of attribute \"" + l_attrNameStr + "\". using \"top\" instead",{ fileName : "Cease.hx", lineNumber : 196, className : "Cease", methodName : "parseCease"});
-							$r = Y_predef.TOP;
-							return $r;
-						}($this));
-						return $r;
-					}($this));
-				}
-				return $r;
-			}(this));
-			switch(l_attrNameStr) {
-			case "size":
-				var validValue = true;
-				var $e = (l_x);
-				switch( $e[1] ) {
-				case 3:
-					var unit = $e[3], v = $e[2];
-					break;
-				default:
-					validValue = false;
-					haxe.Log.trace("The size.x attribute only accept numerical values",{ fileName : "Cease.hx", lineNumber : 211, className : "Cease", methodName : "parseCease"});
-				}
-				var $e = (l_y);
-				switch( $e[1] ) {
-				case 3:
-					var unit = $e[3], v = $e[2];
-					break;
-				default:
-					validValue = false;
-					haxe.Log.trace("The size.y attribute only accept numerical values",{ fileName : "Cease.hx", lineNumber : 219, className : "Cease", methodName : "parseCease"});
-				}
-				if(validValue) _destElement.setSize({ x : l_x, y : l_y});
-				break;
-			case "pivot":
-				_destElement.setPivot({ x : l_x, y : l_y});
-				break;
-			case "position":
-				_destElement.setPosition({ x : l_x, y : l_y});
-				break;
-			}
-			break;
-		default:
-			haxe.Log.trace("Invalid attribute name \"" + l_attrNameStr + "\"",{ fileName : "Cease.hx", lineNumber : 238, className : "Cease", methodName : "parseCease"});
-		}
-	}
-	if(_destElement.ref == null) _destElement.ref = REF_predef.PARENT;
-	if(_destElement.pivot == null) _destElement.pivot.set({ x : X_predef.LEFT, y : Y_predef.TOP});
-	$s.pop();
-}
-Cease.prototype.__class__ = Cease;
-CeaAttr = { __ename__ : ["CeaAttr"], __constructs__ : ["SIZE","PIVOT","POSITION"] }
-CeaAttr.SIZE = ["SIZE",0];
-CeaAttr.SIZE.toString = $estr;
-CeaAttr.SIZE.__enum__ = CeaAttr;
-CeaAttr.PIVOT = ["PIVOT",1];
-CeaAttr.PIVOT.toString = $estr;
-CeaAttr.PIVOT.__enum__ = CeaAttr;
-CeaAttr.POSITION = ["POSITION",2];
-CeaAttr.POSITION.toString = $estr;
-CeaAttr.POSITION.__enum__ = CeaAttr;
-REF_predef = { __ename__ : ["REF_predef"], __constructs__ : ["PARENT","PREV","NEXT","DOCUMENT","WINDOW","SELECTOR"] }
-REF_predef.PARENT = ["PARENT",0];
-REF_predef.PARENT.toString = $estr;
-REF_predef.PARENT.__enum__ = REF_predef;
-REF_predef.PREV = ["PREV",1];
-REF_predef.PREV.toString = $estr;
-REF_predef.PREV.__enum__ = REF_predef;
-REF_predef.NEXT = ["NEXT",2];
-REF_predef.NEXT.toString = $estr;
-REF_predef.NEXT.__enum__ = REF_predef;
-REF_predef.DOCUMENT = ["DOCUMENT",3];
-REF_predef.DOCUMENT.toString = $estr;
-REF_predef.DOCUMENT.__enum__ = REF_predef;
-REF_predef.WINDOW = ["WINDOW",4];
-REF_predef.WINDOW.toString = $estr;
-REF_predef.WINDOW.__enum__ = REF_predef;
-REF_predef.SELECTOR = function(s) { var $x = ["SELECTOR",5,s]; $x.__enum__ = REF_predef; $x.toString = $estr; return $x; }
-CeaMent = function(_jQelement) {
-	if( _jQelement === $_ ) return;
-	$s.push("CeaMent::new");
-	var $spos = $s.length;
-	this.size = null;
-	this.pivot = null;
-	this.pos = null;
-	this.target = _jQelement;
-	this.ref = null;
-	this.m_prevRefSize = { x : 0, y : 0};
-	this.m_prevRefPos = { x : 0, y : 0};
-	$s.pop();
-}
-CeaMent.__name__ = ["CeaMent"];
-CeaMent.prototype.target = null;
-CeaMent.prototype.jQref = null;
-CeaMent.prototype.m_prevRefSize = null;
-CeaMent.prototype.m_prevRefPos = null;
-CeaMent.prototype.ref = null;
-CeaMent.prototype.size = null;
-CeaMent.prototype.pivot = null;
-CeaMent.prototype.pos = null;
-CeaMent.prototype.getjQ = function() {
-	$s.push("CeaMent::getjQ");
-	var $spos = $s.length;
-	var $tmp = this.target;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-CeaMent.prototype.setRef = function(_ref) {
-	$s.push("CeaMent::setRef");
-	var $spos = $s.length;
-	this.ref = _ref;
-	var l_selectorStr = "";
-	var l_jQref = (function($this) {
-		var $r;
-		var $e = ($this.ref);
-		switch( $e[1] ) {
-		case 4:
-			$r = Cease.window;
-			break;
-		case 3:
-			$r = Cease.document;
-			break;
-		case 0:
-			$r = $this.getjQ().parent();
-			break;
-		case 1:
-			$r = $this.getjQ().prev();
-			break;
-		case 2:
-			$r = $this.getjQ().next();
-			break;
-		case 5:
-			var s = $e[2];
-			$r = (function($this) {
-				var $r;
-				l_selectorStr = s;
-				$r = new js.JQuery(s);
-				return $r;
-			}($this));
-			break;
-		}
-		return $r;
-	}(this));
-	this.jQref = l_jQref;
-	if(l_jQref.size() != 1) {
-		if(this.ref != REF_predef.PARENT) {
-			if(l_jQref.size() == 0) haxe.Log.trace("Invalid value \"" + this.ref + "\" for attribute \"ref\"",{ fileName : "CeaMent.hx", lineNumber : 80, className : "CeaMent", methodName : "setRef"}); else {
-				haxe.Log.trace("Invalid number of matched element with selector \"" + l_selectorStr + "\" for attribute \"ref\"",{ fileName : "CeaMent.hx", lineNumber : 84, className : "CeaMent", methodName : "setRef"});
-				haxe.Log.trace("Multiple ref is not yet supported, your css selector should match one unique element",{ fileName : "CeaMent.hx", lineNumber : 85, className : "CeaMent", methodName : "setRef"});
-			}
-			haxe.Log.trace("Using parent as ref instead.",{ fileName : "CeaMent.hx", lineNumber : 87, className : "CeaMent", methodName : "setRef"});
-			this.setRef(REF_predef.PARENT);
-		} else {
-			haxe.Log.trace("This element doesn't have a parent. Using document instead.",{ fileName : "CeaMent.hx", lineNumber : 92, className : "CeaMent", methodName : "setRef"});
-			this.setRef(REF_predef.DOCUMENT);
-		}
-	}
-	$s.pop();
-}
-CeaMent.prototype.setSize = function(_value) {
-	$s.push("CeaMent::setSize");
-	var $spos = $s.length;
-	if(this.size == null) this.size = new CeaVal();
-	this.size.set(_value);
-	$s.pop();
-}
-CeaMent.prototype.setPivot = function(_value) {
-	$s.push("CeaMent::setPivot");
-	var $spos = $s.length;
-	if(this.pivot == null) this.pivot = new CeaVal();
-	this.pivot.set(_value);
-	$s.pop();
-}
-CeaMent.prototype.setPosition = function(_value) {
-	$s.push("CeaMent::setPosition");
-	var $spos = $s.length;
-	if(this.pos == null) this.pos = new CeaVal();
-	this.pos.set(_value);
-	$s.pop();
-}
-CeaMent.prototype.isParentResized = function() {
-	$s.push("CeaMent::isParentResized");
-	var $spos = $s.length;
-	var l_refSize = this.getSize(this.ref);
-	haxe.Log.trace(this.m_prevRefSize.x + ", " + this.m_prevRefSize.y + " =? " + l_refSize.x + ", " + l_refSize.y,{ fileName : "CeaMent.hx", lineNumber : 128, className : "CeaMent", methodName : "isParentResized"});
-	var $tmp = this.m_prevRefSize.x != l_refSize.x || this.m_prevRefSize.y != l_refSize.y;
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-CeaMent.prototype.update = function() {
-	$s.push("CeaMent::update");
-	var $spos = $s.length;
-	if(this.isParentResized()) {
-		if(!this.updateSize()) this.updatePos();
-		this.m_prevRefSize = this.getSize(this.ref);
-	}
-	$s.pop();
-}
-CeaMent.prototype.updatePos = function() {
-	$s.push("CeaMent::updatePos");
-	var $spos = $s.length;
-	if(this.pos != null) {
-		var l_offset;
-		var l_refOffset;
-		var l_eltPivot;
-		var l_eltPos;
-		l_refOffset = this.getOffset(this.ref);
-		l_eltPivot = this.getPx(CeaAttr.PIVOT);
-		l_eltPos = this.getPx(CeaAttr.POSITION);
-		l_offset = { x : l_refOffset.x + l_eltPos.x - l_eltPivot.x, y : l_refOffset.y + l_eltPos.y - l_eltPivot.y};
-		this.target.offset({ top : l_offset.y, left : l_offset.x});
-		haxe.Log.trace("new position : " + this.pos,{ fileName : "CeaMent.hx", lineNumber : 165, className : "CeaMent", methodName : "updatePos"});
-		$s.pop();
-		return true;
-	} else {
-		$s.pop();
-		return false;
-	}
-	$s.pop();
-}
-CeaMent.prototype.updateSize = function() {
-	$s.push("CeaMent::updateSize");
-	var $spos = $s.length;
-	if(this.size != null) {
-		var _coord;
-		_coord = this.getPx(CeaAttr.SIZE);
-		this.target.width(_coord.x);
-		this.target.height(_coord.y);
-		haxe.Log.trace("new Size : " + this.size,{ fileName : "CeaMent.hx", lineNumber : 189, className : "CeaMent", methodName : "updateSize"});
-		this.updatePos();
-		$s.pop();
-		return true;
-	} else {
-		$s.pop();
-		return false;
-	}
-	$s.pop();
-}
-CeaMent.prototype.getPx = function(_attr) {
-	$s.push("CeaMent::getPx");
-	var $spos = $s.length;
-	var _coord;
-	_coord = this.getPxValues(_attr);
-	$s.pop();
-	return _coord;
-	$s.pop();
-}
-CeaMent.prototype.getOffset = function(_ref) {
-	$s.push("CeaMent::getOffset");
-	var $spos = $s.length;
-	var _offset;
-	_offset = (function($this) {
-		var $r;
-		var $e = (_ref);
-		switch( $e[1] ) {
-		case 4:
-		case 3:
-			$r = { x : 0, y : 0};
-			break;
-		case 0:
-		case 1:
-		case 2:
-			$r = { x : $this.jQref.offset().left, y : $this.jQref.offset().top};
-			break;
-		case 5:
-			var s = $e[2];
-			$r = { x : $this.jQref.offset().left, y : $this.jQref.offset().top};
-			break;
-		}
-		return $r;
-	}(this));
-	$s.pop();
-	return _offset;
-	$s.pop();
-}
-CeaMent.prototype.getSize = function(_ref) {
-	$s.push("CeaMent::getSize");
-	var $spos = $s.length;
-	var _size;
-	_size = (function($this) {
-		var $r;
-		switch(_ref) {
-		default:
-			$r = { x : $this.jQref.width(), y : $this.jQref.height()};
-		}
-		return $r;
-	}(this));
-	$s.pop();
-	return _size;
-	$s.pop();
-}
-CeaMent.prototype.getPxValues = function(_attr) {
-	$s.push("CeaMent::getPxValues");
-	var $spos = $s.length;
-	var $tmp = { x : this.xToPixels(_attr), y : this.yToPixels(_attr)};
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-CeaMent.prototype.xToPixels = function(_attr) {
-	$s.push("CeaMent::xToPixels");
-	var $spos = $s.length;
-	var _rValue;
-	var l_ceaVal;
-	var l_ref;
-	switch( (_attr)[1] ) {
-	case 0:
-		l_ceaVal = this.size;
-		l_ref = this.jQref;
-		break;
-	case 1:
-		l_ceaVal = this.pivot;
-		l_ref = this.target;
-		break;
-	case 2:
-		l_ceaVal = this.pos;
-		l_ref = this.jQref;
-		break;
-	}
-	var l_unit;
-	var l_rawValue;
-	var $e = (l_ceaVal.getX());
-	switch( $e[1] ) {
-	case 0:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 0.0;
-		break;
-	case 1:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 0.5;
-		break;
-	case 2:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 1.0;
-		break;
-	case 3:
-		var unit = $e[3], v = $e[2];
-		l_unit = unit;
-		l_rawValue = (function($this) {
-			var $r;
-			switch( (unit)[1] ) {
-			case 0:
-				$r = v;
-				break;
-			case 2:
-				$r = v * 0.01;
-				break;
-			case 1:
-				$r = v;
-				break;
-			}
-			return $r;
-		}(this));
-		break;
-	}
-	_rValue = Std["int"](l_unit == E_Unit.PX?l_rawValue:l_rawValue * l_ref.width());
-	$s.pop();
-	return _rValue;
-	$s.pop();
-}
-CeaMent.prototype.yToPixels = function(_attr) {
-	$s.push("CeaMent::yToPixels");
-	var $spos = $s.length;
-	var _rValue;
-	var l_ceaVal;
-	var l_ref;
-	switch( (_attr)[1] ) {
-	case 0:
-		l_ceaVal = this.size;
-		l_ref = this.jQref;
-		break;
-	case 1:
-		l_ceaVal = this.pivot;
-		l_ref = this.target;
-		break;
-	case 2:
-		l_ceaVal = this.pos;
-		l_ref = this.jQref;
-		break;
-	}
-	var l_unit;
-	var l_rawValue;
-	var $e = (l_ceaVal.getY());
-	switch( $e[1] ) {
-	case 0:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 0.0;
-		break;
-	case 1:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 0.5;
-		break;
-	case 2:
-		l_unit = E_Unit.RATIO;
-		l_rawValue = 1.0;
-		break;
-	case 3:
-		var unit = $e[3], v = $e[2];
-		l_unit = unit;
-		l_rawValue = (function($this) {
-			var $r;
-			switch( (unit)[1] ) {
-			case 0:
-				$r = v;
-				break;
-			case 2:
-				$r = v * 0.01;
-				break;
-			case 1:
-				$r = v;
-				break;
-			}
-			return $r;
-		}(this));
-		break;
-	}
-	_rValue = Std["int"](l_unit == E_Unit.PX?l_rawValue:l_rawValue * l_ref.height());
-	$s.pop();
-	return _rValue;
-	$s.pop();
-}
-CeaMent.prototype.toString = function() {
-	$s.push("CeaMent::toString");
-	var $spos = $s.length;
-	var $tmp = "{ target : " + this.target + ", ref : " + this.ref + ", size : " + this.size + ", pivot : " + this.pivot + ", position : " + this.pos + " }";
-	$s.pop();
-	return $tmp;
-	$s.pop();
-}
-CeaMent.prototype.__class__ = CeaMent;
 $_ = {}
 js.Boot.__res = {}
 $s = [];
@@ -1822,7 +1822,7 @@ js.Boot.__init();
 {
 	var d = Date;
 	d.now = function() {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var $tmp = new Date();
 		$s.pop();
@@ -1830,7 +1830,7 @@ js.Boot.__init();
 		$s.pop();
 	};
 	d.fromTime = function(t) {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var d1 = new Date();
 		d1["setTime"](t);
@@ -1839,7 +1839,7 @@ js.Boot.__init();
 		$s.pop();
 	};
 	d.fromString = function(s) {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		switch(s.length) {
 		case 8:
@@ -1869,7 +1869,7 @@ js.Boot.__init();
 		$s.pop();
 	};
 	d.prototype["toString"] = function() {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var date = this;
 		var m = date.getMonth() + 1;
@@ -1928,17 +1928,17 @@ js.Boot.__init();
 	q.fn.toggleClick = q.fn.toggle;
 	q.of = q;
 	q.fn.iterator = function() {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var $tmp = { pos : 0, j : this, hasNext : function() {
-			$s.push("CeaMent::toString@315");
+			$s.push("IntIter::next@315");
 			var $spos = $s.length;
 			var $tmp = this.pos < this.j.length;
 			$s.pop();
 			return $tmp;
 			$s.pop();
 		}, next : function() {
-			$s.push("CeaMent::toString@315");
+			$s.push("IntIter::next@315");
 			var $spos = $s.length;
 			var $tmp = $(this.j[this.pos++]);
 			$s.pop();
@@ -1970,7 +1970,7 @@ js.Boot.__init();
 	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
 	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
 	Math.isFinite = function(i) {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var $tmp = isFinite(i);
 		$s.pop();
@@ -1978,7 +1978,7 @@ js.Boot.__init();
 		$s.pop();
 	};
 	Math.isNaN = function(i) {
-		$s.push("CeaMent::toString");
+		$s.push("IntIter::next");
 		var $spos = $s.length;
 		var $tmp = isNaN(i);
 		$s.pop();
@@ -1988,9 +1988,10 @@ js.Boot.__init();
 }
 if(typeof(haxe_timers) == "undefined") haxe_timers = [];
 js.Lib.onerror = null;
-Cease.document = new js.JQuery(js.Lib.document);
-Cease.window = new js.JQuery(js.Lib.window);
-Cease.ceaseElements = new List();
-Cease.decimalNbRegExp = new EReg("(-?[0-9]*\\.?[0-9]+)","");
-Cease.spaceSeparatorRegExp = new EReg("([ \t]+)","");
-Cease.main()
+cease.Cease.document = new js.JQuery(js.Lib.document);
+cease.Cease.window = new js.JQuery(js.Lib.window);
+cease.Cease.ceaseElements = new List();
+cease.Cease.decimalNbRegExp = new EReg("(-?[0-9]*\\.?[0-9]+)","");
+cease.Cease.spaceSeparatorRegExp = new EReg("([ \t]+)","");
+cease.Cease.checking = false;
+cease.Cease.main()

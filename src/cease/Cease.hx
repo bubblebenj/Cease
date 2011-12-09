@@ -2,14 +2,13 @@
  * ...
  * @author dubois benjamin
  */
-
 package cease;
 
 import haxe.Timer;
 import js.Dom;
 import js.JQuery;
-import CeaVal;
-import CeaMent;
+import cease.CeaVal;
+import cease.CeaMent;
 
 class Cease 
 {
@@ -54,7 +53,7 @@ class Cease
 		trace ( "blop" );
 		// gather 
 		var l_ceaseElements : JQuery	= j(".cease");
-		l_ceaseElements.html( "got it !" );
+		
 		l_ceaseElements.each( function() 
 		{
 			var l_cur					= JQuery.cur;
@@ -70,16 +69,22 @@ class Cease
 			l_ceaMent.updateSize();
 			ceaseElements.add( l_ceaMent );
 		} );
-		checkTimer	= new Timer( 80 );
+		checkTimer	= new Timer( 40 );
 		checkTimer.run	= checkRefChange;
 	}
 	
+	private static var checking : Bool = false;
 	private static function checkRefChange() : Void
 	{
-		for ( i_ceaMent in ceaseElements )
+		if ( ! checking ) // if not checking the process will grow grow groooowwww (leak)
 		{
-			i_ceaMent.update();
+			checking = true;
+			for ( i_ceaMent in ceaseElements )
+			{
+				i_ceaMent.update();
+			}
 		}
+		checking = false;
 	}
 	
 	private static function parseCease( _string : String, _destElement : CeaMent ) : Void
